@@ -5,8 +5,8 @@ var width = canvas.width;
 var height = canvas.height;
 
 var blockSize = 10;
-var widthInBlocks = width/blockSize;
-var heightInBlocks = height/blockSize;
+var widthInBlocks = width / blockSize;
+var heightInBlocks = height / blockSize;
 
 var score = 0;
 
@@ -15,7 +15,7 @@ var drawBorder = function() {
   ctx.fillRect(0, 0, width, blockSize);
   ctx.fillRect(0, height - blockSize, width, blockSize);
   ctx.fillRect(0, 0, blockSize, height);
-  ctx.fillRect(width - blockSize, 0 , blockSize, height);
+  ctx.fillRect(width - blockSize, 0, blockSize, height);
 };
 
 var drawScore = function() {
@@ -32,7 +32,7 @@ var gameOver = function() {
   ctx.fillStyle = "Black";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("I love you, but you blew it. Game Over.", width/2, height/2);
+  ctx.fillText("I love you, but you blew it. Game Over.", width / 2, height / 2);
 };
 
 var Block = function(col, row) {
@@ -48,10 +48,10 @@ Block.prototype.drawSquare = function(color) {
 };
 
 Block.prototype.drawCircle = function(color) {
-  var centerX = this.col * blockSize + blockSize/2;
-  var centerY = this.row * blockSize + blockSize/2;
+  var centerX = this.col * blockSize + blockSize / 2;
+  var centerY = this.row * blockSize + blockSize / 2;
   ctx.fillStyle = color;
-  circle(centerX, centerY, blockSize/2, true);
+  circle(centerX, centerY, blockSize / 2, true);
 };
 
 Block.prototype.equal = function(otherBlock) {
@@ -69,13 +69,13 @@ var Worm = function() {
   this.nextDirection = "right";
 };
 
-Worm.prototype.draw = function(){
-  for (var i = 0; i < this.segments.length; i++){
+Worm.prototype.draw = function() {
+  for (var i = 0; i < this.segments.length; i++) {
     this.segments[i].drawSquare("#39FF14");
   }
 };
 
-Worm.prototype.move = function(){
+Worm.prototype.move = function() {
   var head = this.segments[0];
   var newHead;
 
@@ -86,9 +86,9 @@ Worm.prototype.move = function(){
   } else if (this.direction === "down") {
     newHead = new Block(head.col, head.row + 1);
   } else if (this.direction === "left") {
-    newHead = new Block(head.col -1, head.row);
+    newHead = new Block(head.col - 1, head.row);
   } else if (this.direction === "up") {
-    newHead = new Block(head.col, head.row -1);
+    newHead = new Block(head.col, head.row - 1);
   }
   if (this.checkCollision(newHead)) {
     gameOver();
@@ -98,12 +98,28 @@ Worm.prototype.move = function(){
   this.segments.unshift(newHead);
 
   if (newHead.equal(apple.position)) {
-     score ++;
-     apple.move();
-   }else {
-     this.segments.pop();
-   }
- };
-  
-drawBorder();
-drawScore();
+    score++;
+    apple.move();
+  } else {
+    this.segments.pop();
+  }
+};
+
+Worm.prototype.checkCollision = function(head) {
+  var leftCollison = (head.col === 0);
+  var topCollision = (head.row === 0);
+  var rightCollision = (head.col === widthInBlocks - 1);
+  var bottomCollision = (head.row === heightInBlocks - 1);
+
+  var wallCollision = leftCollison || topCollision || rightCollision || bottomCollision;
+
+  var selfCollision = false;
+
+  for (var i = 0; i < this.segments.length; i++) {
+    if (head.equal(this.segments[i])) {
+      selfCollision = true;
+    }
+  }
+
+  return wallCollision || selfCollision;
+};
