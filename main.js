@@ -123,3 +123,31 @@ Worm.prototype.checkCollision = function(head) {
 
   return wallCollision || selfCollision;
 };
+
+var directions = {
+  37: "left",
+  38: "up",
+  39: "right",
+  40: "down"
+};
+
+$("body").keydown(function(event) {
+  var newDirection = directions[event.keyCode];
+  if (newDirection !== undefined) {
+    worm.setDirection(newDirection);
+  }
+});
+
+Worm.prototype.setDirection = function() {
+    if (this.direction === "up" && newDirection === "down") {
+      return;
+    } else if (this.direction === "right" && newDirection === "left") {
+      return;
+    } else if (this.direction === "down" && newDirection === "up") {
+      return;
+    } else if (this.direction === "left" && newDirection === "right") {
+      return;
+    }
+
+    this.nextDirection = newDirection;
+};
