@@ -58,6 +58,21 @@ Block.prototype.equal = function(otherBlock) {
   return this.col === otherBlock.col && this.row === otherBlock.row;
 };
 
+var Worm = function() {
+  this.segments = [
+    new Block(7, 5),
+    new Block(6, 5),
+    new Block(5, 5)
+  ];
 
+  this.direction = "right";
+  this.nextDirection = "right";
+};
+
+Worm.prototype.draw = function(){
+  for (var i = 0; i < this.segments.length; i++){
+    this.segments[i].drawSquare("#39FF14");
+  }
+};
 drawBorder();
 drawScore();
