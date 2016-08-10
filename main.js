@@ -28,11 +28,21 @@ var drawScore = function() {
 
 var gameOver = function() {
   clearInterval(intervalId);
-  ctx.font = "40px Courier";
+  ctx.font = "14px Courier";
   ctx.fillStyle = "Black";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("I love you, but you blew it. Game Over.", width / 2, height / 2);
+};
+
+var circle = function(x, y, radius, fillCircle) {
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+  if (fillCircle) {
+    ctx.fill();
+  } else {
+    ctx.stroke();
+  }
 };
 
 var Block = function(col, row) {
@@ -90,6 +100,7 @@ Worm.prototype.move = function() {
   } else if (this.direction === "up") {
     newHead = new Block(head.col, head.row - 1);
   }
+
   if (this.checkCollision(newHead)) {
     gameOver();
     return;
@@ -124,20 +135,6 @@ Worm.prototype.checkCollision = function(head) {
   return wallCollision || selfCollision;
 };
 
-var directions = {
-  37: "left",
-  38: "up",
-  39: "right",
-  40: "down"
-};
-
-$("body").keydown(function(event) {
-  var newDirection = directions[event.keyCode];
-  if (newDirection !== undefined) {
-    worm.setDirection(newDirection);
-  }
-});
-
 Worm.prototype.setDirection = function() {
     if (this.direction === "up" && newDirection === "down") {
       return;
@@ -151,3 +148,43 @@ Worm.prototype.setDirection = function() {
 
     this.nextDirection = newDirection;
 };
+
+var Apple = function() {
+  this.position = new Block(10, 10);
+};
+
+Apple.prototype.draw = function() {
+  this.position.drawCircle('#05EEFA');
+};
+
+Apple.prototype.move = function() {
+  var randomCOl = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
+  var randomRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
+  this.position = new Block(randomCol, randomRow);
+};
+
+var worm = new Worm();
+var apple = new Apple();
+
+var intervalId = setInterval(function() {
+  ctx.clearRect(0, 0, width, height);
+  drawScore();
+  worm.move();
+  worm.draw();
+  apple.draw();
+  drawBorder();
+}, 100);
+
+var directions = {
+  37: "left",
+  38: "up",
+  39: "right",
+  40: "down"
+};
+
+$("body").keydown(function(event) {
+  var newDirection = directions[event.keyCode];
+  if (newDirection !== undefined) {
+    worm.setDirection(newDirection);
+  }
+});
