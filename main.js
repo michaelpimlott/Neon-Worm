@@ -4,7 +4,7 @@ var ctx = canvas.getContext('2d');
 var width = canvas.width;
 var height = canvas.height;
 
-var blockSize = 10;
+var blockSize = 20;
 var widthInBlocks = width / blockSize;
 var heightInBlocks = height / blockSize;
 
@@ -20,7 +20,7 @@ var drawBorder = function() {
 
 var drawScore = function() {
   ctx.font = "20px Courier";
-  ctx.fillStyle = "Black";
+  ctx.fillStyle = "White";
   ctx.textAlign = "left";
   ctx.textBaseline = "top";
   ctx.fillText('Score: ' + score, blockSize, blockSize);
@@ -28,12 +28,13 @@ var drawScore = function() {
 
 var gameOver = function() {
   clearInterval(intervalId);
-  ctx.font = "14px Courier";
-  ctx.fillStyle = "Black";
+  ctx.font = "20px Courier";
+  ctx.fillStyle = "White";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("I love you, but you blew it. Game Over.", width / 2, height / 2);
 };
+
 
 var circle = function(x, y, radius, fillCircle) {
   ctx.beginPath();
