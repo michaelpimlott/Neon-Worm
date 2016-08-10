@@ -135,7 +135,7 @@ Worm.prototype.checkCollision = function(head) {
   return wallCollision || selfCollision;
 };
 
-Worm.prototype.setDirection = function() {
+Worm.prototype.setDirection = function(newDirection) {
     if (this.direction === "up" && newDirection === "down") {
       return;
     } else if (this.direction === "right" && newDirection === "left") {
@@ -158,7 +158,7 @@ Apple.prototype.draw = function() {
 };
 
 Apple.prototype.move = function() {
-  var randomCOl = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
+  var randomCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
   var randomRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
   this.position = new Block(randomCol, randomRow);
 };
