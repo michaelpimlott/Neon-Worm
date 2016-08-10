@@ -17,3 +17,23 @@ var drawBorder = function() {
   ctx.fillRect(0, 0, blockSize, height);
   ctx.fillRect(width - blockSize, 0 , blockSize, height);
 };
+
+var drawScore = function() {
+  ctx.font = "20px Courier";
+  ctx.fillStyle = "Black";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText('Score: ' + score, blockSize, blockSize);
+};
+
+var gameOver = function() {
+  clearInterval(intervalId);
+  ctx.font = "40px Courier";
+  ctx.fillStyle = "Black";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("I love you, but you blew it. Game Over.", width/2, height/2);
+};
+
+drawBorder();
+drawScore();
