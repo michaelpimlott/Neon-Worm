@@ -174,7 +174,7 @@ var intervalId = setInterval(function() {
   worm.draw();
   apple.draw();
   drawBorder();
-}, 100);
+}, 60);
 
 var directions = {
   37: "left",
